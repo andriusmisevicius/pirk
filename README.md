@@ -1,4 +1,6 @@
 # PiRK- simple, minimalistic personal ad website.
+DEMO:
+http://arcane-cove-49467.herokuapp.com
 
 If you're using Vagrant to run Symfony apps use this guide: https://symfony.com/doc/current/setup/homestead.html
 
