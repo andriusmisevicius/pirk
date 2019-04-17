@@ -1,0 +1,39 @@
+
+<div class="border-bottom">
+<div class="container">
+    <div class="row">
+        <div class="col-1">
+            <a href="{{ path('home') }}"><img src="{{ asset('favicon.png') }}" style="height: 50px"></a>
+        </div>
+        <p class="font-weight-bolder col-3 mt-3">𝝅RK</p>
+        <div class="col-lg-8 col-sm-6">
+            <ul class="nav float-right">
+                {% if not(app.user) %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_register') }}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('item_category_new') }}">Add a new category</a>
+                    </li>
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('item_new') }}">List a new item!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('item_index') }}">My items</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+</div>

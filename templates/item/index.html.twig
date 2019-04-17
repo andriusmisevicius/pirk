@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My items:{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1 class="text-center m-3">My items</h1>
+        <div class="card-columns">
+            <div class="card">
+                <a href="{{ path('item_new') }}" style="text-decoration: none" class="card-body text-center">
+                    <h5 class="card-title">Add a new item!</h5>
+                    <p class="card-text h1">
+                        🗒
+                    </p>
+                </a>
+            </div>
+            {% for item in items %}
+                <div class="card">
+                    <a href="{{ path('item_show',{'id':item.id}) }}"><img style="position:relative;" class="card-img-top" src="{{ vich_uploader_asset(item,'imageFile') }}" alt="{{ item.title }}"></a>
+                    <div style="position:absolute;top:20px;right:20px;" class="row">
+                        <form method="post" action="{{ path('item_delete', {'id': item.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                            <button class="mr-1 btn btn-danger">🗑</button>
+                        </form>
+                        <button class="btn btn-success mr-1"><a href="{{ path('item_edit',{'id':item.id}) }}">✏</a></button>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                                <a class=" ml-1 h4" style="text-decoration: none" href="{{ path('item_show',{'id':item.id}) }}">{{ item.itemCategory.title }}: {{ item.title }}</a>
+                        </h5>
+                        <p class="card-text">{{ item.description|length > 50 ? item.description|slice(0, 50) ~ '...' : item.description }}</p>
+                        <p class="card-text small">Created: {{ item.createdAt|date('Y-m-d H:i') }}</p>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ItemCategory{% endblock %}
+
+{% block body %}
+<div class="container">
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ item_category.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ item_category.title }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('item_category_edit', {'id': item_category.id}) }}">edit</a>
+
+    {{ include('item_category/_delete_form.html.twig') }}
+</div>
+
+{% endblock %}

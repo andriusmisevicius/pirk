@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Item{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3">
+        <div class="card offset-lg-2 col-lg-8">
+            <img class="card-img-top mt-3" style="position:relative;" src="{{ vich_uploader_asset(item, 'imageFile') }}">
+            {% if app.user == item.author or is_granted('ROLE_ADMIN') == true %}
+                <div class="row" style="position:absolute;top:20px;right:20px;margin:0;">
+                    <a class="btn btn-success ml-1 mr-1" href="{{ path('item_edit', {'id': item.id}) }}">✎</a>
+
+                    {{ include('item/_delete_form.html.twig') }}
+                </div>
+            {% endif %}
+            <div class="card-body">
+                <div class="row">
+                    <h5 class="card-title col-6">{{ item.itemCategory.title }}: {{ item.title }}</h5>
+                    <p class="small col-6 text-right">Created: {{ item.createdAt|date('Y-m-d H:i') }}</p>
+                </div>
+
+                <p class="card-text">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">Price: {{ item.price|number_format(2, '.', ',') }}€</div>
+                        <div class="col-lg-3 col-md-6 font-weight-bold">Price with VAT (21%):
+                            {% set foo = item.price*1.21 %}
+                            {{ foo|number_format(2, '.', ',') }}€
+                        </div>
+                        <div class="col-lg-3 col-md-6">{{ item.author.name }}<br>{{ item.author.username }}<br>{{ item.author.phone }}</div>
+                        <div class="col-lg-3 col-md-6">
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="collapse mt-3" id="collapseExample">
+                            <div class="card-body">
+                                <p class="text-break">{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="col-lg-8 offset-lg-2">
+            {% if app.user %}
+                <h2>Leave a comment:</h2>
+                <div class="mb-4"> {{ include('item/_form.html.twig') }}</div>
+            {% endif %}
+
+        {% for comment in comments %}
+            <div class="card bg-light mb-3">
+                <div class="card-header">
+                    {{ comment.author.phone}}<br>{{ comment.author.username}}<br>{{ comment.author.name }}
+                    {% if app.user == comment.author or is_granted('ROLE_ADMIN') == true %}
+                        <div class="float-right">{{ include('comment/_delete_form.html.twig') }}</div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
